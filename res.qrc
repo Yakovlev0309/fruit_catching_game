@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>apple1.png</file>
+        <file>apple2.png</file>
+        <file>apple3.png</file>
+        <file>apple4.png</file>
+        <file>background.png</file>
+        <file>character.png</file>
+        <file>end.png</file>
+        <file>heart.png</file>
+        <file>pear1.png</file>
+        <file>pear2.png</file>
+    </qresource>
+</RCC>

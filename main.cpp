@@ -1,8 +1,15 @@
 #include <QCoreApplication>
+#include "game.h"
+#include <QApplication>
+
+Game *game;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
+
+    game = new Game();
+    game->start();
 
     return a.exec();
 }
