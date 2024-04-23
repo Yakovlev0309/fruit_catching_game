@@ -3,6 +3,12 @@
 
 #include <QGraphicsPixmapItem>
 
+enum class PlayerDirection
+{
+    LEFT = -1,
+    RIGHT = 1
+};
+
 class Player : public QGraphicsPixmapItem
 {
 public:
@@ -11,7 +17,11 @@ public:
 private:
     void keyPressEvent(QKeyEvent *event) override;
 
-    void flipImage(int state);
+    void flipImage(const PlayerDirection &direction);
+
+private:
+    QSize image_size;
+    PlayerDirection current_direction;
 };
 
 #endif // PLAYER_H

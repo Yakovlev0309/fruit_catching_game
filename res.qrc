@@ -10,5 +10,6 @@
         <file>heart.png</file>
         <file>pear1.png</file>
         <file>pear2.png</file>
+        <file>character_flipped.png</file>
     </qresource>
 </RCC>
