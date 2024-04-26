@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "player.h"
+#include "score.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
@@ -27,16 +28,28 @@ public:
 
 private:
     void startFruitsGeneration(int ms);
+    void gameOver();
+
+    void decreaseHealth();
+
+    void updateHearts();
 
 private slots:
     void generateFruit();
+    void redFruitCathed();
+    void greenFruitCathed();
+    void wormAppleCatched();
+    void appleCoreCatched();
 
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
-    Player *player;
 
     QSize window_size;
+
+    Player *player;
+    Score *score;
+    int health;
 };
 
 #endif // GAME_H

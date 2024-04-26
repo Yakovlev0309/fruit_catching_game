@@ -9,6 +9,9 @@ class Fruit : public QObject, public QGraphicsPixmapItem
 public:
     Fruit(QGraphicsItem *parent = nullptr);
 
+signals:
+    void fruitCatchedSignal();
+
 private:
     void move();
 };

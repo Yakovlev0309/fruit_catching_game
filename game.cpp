@@ -30,18 +30,21 @@ Game::Game()
     scene->addItem(player);
 
     // Очки
-    // score = new Score();
-    // scene->addItem(score);
+    score = new Score(0);
+    scene->addItem(score);
+    score->setPos(650, 400);
 
     // Здоровье
     // health = new Health();
     // health->setPos(health->x(), health->y() + 25);
     // scene->addItem(health);
+    health = 5;
 
     // Фоновая музыка
     // QMediaPlayer *music = new QMediaPlayer();
     // music->setMedia(QUrl("qrc:/sounds/background.mp3"));
     // music->play();
+
 }
 
 Game::~Game()
@@ -54,7 +57,7 @@ void Game::start()
     view->show();
 
     // Генерация фруктов
-    startFruitsGeneration(2000);
+    startFruitsGeneration(1000);
 }
 
 void Game::startFruitsGeneration(int ms)
@@ -64,32 +67,81 @@ void Game::startFruitsGeneration(int ms)
     QObject::connect(timer, &QTimer::timeout, this, &Game::generateFruit);
     timer->start(ms);
 }
+#include <QDebug>
+void Game::gameOver()
+{
+    qDebug() << "game over";
+}
+
+void Game::decreaseHealth()
+{
+    health -= 1;
+    updateHearts();
+    if (health == 0)
+    {
+        gameOver();
+    }
+}
+
+void Game::updateHearts()
+{
+    qDebug() << health;
+}
 
 void Game::generateFruit()
 {
+    // TODO повышенный шанс появления гнилых фруктов и фруктов с червями
     Fruit *fruit;
     int fruit_number = rand() % fruit_count;
     int position = rand() % 700;
+    void (Game::*fruitCatchedFunction)();
     switch (static_cast<FruitType>(fruit_number))
     {
     case FruitType::APPLE_1:
         fruit = new Apple(position, 1);
+        fruitCatchedFunction = &Game::greenFruitCathed;
         break;
     case FruitType::APPLE_2:
         fruit = new Apple(position, 2);
+        fruitCatchedFunction = &Game::redFruitCathed;
         break;
     case FruitType::WORM_APPLE:
         fruit = new WormApple(position);
+        fruitCatchedFunction = &Game::wormAppleCatched;
         break;
     case FruitType::APPLE_CORE:
         fruit = new AppleCore(position);
+        fruitCatchedFunction = &Game::appleCoreCatched;
         break;
     case FruitType::PEAR_1:
         fruit = new Pear(position, 1);
+        fruitCatchedFunction = &Game::greenFruitCathed;
         break;
     case FruitType::PEAR_2:
         fruit = new Pear(position, 2);
+        fruitCatchedFunction = &Game::redFruitCathed;
         break;
     }
+    connect(fruit, &Apple::fruitCatchedSignal, this, fruitCatchedFunction);
     scene->addItem(fruit);
+}
+
+void Game::redFruitCathed()
+{
+    score->increase(2);
+}
+
+void Game::greenFruitCathed()
+{
+    score->increase(1);
+}
+
+void Game::wormAppleCatched()
+{
+    score->increase(-1);
+}
+
+void Game::appleCoreCatched()
+{
+    decreaseHealth();
 }

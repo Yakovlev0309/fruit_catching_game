@@ -14,6 +14,7 @@ SOURCES += \
         main.cpp \
         pear.cpp \
         player.cpp \
+        score.cpp \
         wormapple.cpp
 
 # Default rules for deployment.
@@ -28,6 +29,7 @@ HEADERS += \
     game.h \
     pear.h \
     player.h \
+    score.h \
     wormapple.h
 
 RESOURCES += \
