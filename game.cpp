@@ -1,6 +1,9 @@
 #include "game.h"
 #include "fruit.h"
 #include "apple.h"
+#include "wormapple.h"
+#include "applecore.h"
+#include "pear.h"
 #include <QTimer>
 
 Game::Game()
@@ -61,38 +64,32 @@ void Game::startFruitsGeneration(int ms)
     QObject::connect(timer, &QTimer::timeout, this, &Game::generateFruit);
     timer->start(ms);
 }
-#include <QDebug>
+
 void Game::generateFruit()
 {
     Fruit *fruit;
     int fruit_number = rand() % fruit_count;
+    int position = rand() % 700;
     switch (static_cast<FruitType>(fruit_number))
     {
     case FruitType::APPLE_1:
-        fruit = new Apple();
-        scene->addItem(fruit);
+        fruit = new Apple(position, 1);
         break;
     case FruitType::APPLE_2:
-        fruit = new Apple();
-        scene->addItem(fruit);
+        fruit = new Apple(position, 2);
         break;
     case FruitType::WORM_APPLE:
-        // fruit = new WormApple();
-        qDebug() << "WORM_APPLE";
+        fruit = new WormApple(position);
         break;
     case FruitType::APPLE_CORE:
-        // fruit = new AppleCore();
-        qDebug() << "APPLE_CORE";
+        fruit = new AppleCore(position);
         break;
     case FruitType::PEAR_1:
-        // fruit = new Pear();
-        qDebug() << "PEAR_1";
+        fruit = new Pear(position, 1);
         break;
     case FruitType::PEAR_2:
-        // fruit = new Pear();
-        qDebug() << "PEAR_2";
+        fruit = new Pear(position, 2);
         break;
     }
-
-    // scene->addItem(fruit);
+    scene->addItem(fruit);
 }

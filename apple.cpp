@@ -1,12 +1,10 @@
 #include "apple.h"
 
-Apple::Apple(QGraphicsItem *parent) : Fruit(parent)
+Apple::Apple(int position, int apple_number, QGraphicsItem *parent) : Fruit(parent)
 {
     int divider = 35;
-    // TODO рандомный выбор картинки при создании яблока (передать из рандома в game.cpp)
-    QPixmap pixmap = QPixmap(":/images/apple1.png");
+    QPixmap pixmap = QPixmap(":/images/apple" + QString::number(apple_number) + ".png");
     pixmap = pixmap.scaled(pixmap.size() / divider);
     setPixmap(pixmap);
-
-    // image_size = pixmap.size();
+    setPos(position, 0);
 }

@@ -8,10 +8,13 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         apple.cpp \
+        applecore.cpp \
         fruit.cpp \
         game.cpp \
         main.cpp \
-        player.cpp
+        pear.cpp \
+        player.cpp \
+        wormapple.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -20,9 +23,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     apple.h \
+    applecore.h \
     fruit.h \
     game.h \
-    player.h
+    pear.h \
+    player.h \
+    wormapple.h
 
 RESOURCES += \
     res.qrc
