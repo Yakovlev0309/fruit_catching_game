@@ -11,6 +11,7 @@ SOURCES += \
         applecore.cpp \
         fruit.cpp \
         game.cpp \
+        health.cpp \
         main.cpp \
         pear.cpp \
         player.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     applecore.h \
     fruit.h \
     game.h \
+    health.h \
     pear.h \
     player.h \
     score.h \

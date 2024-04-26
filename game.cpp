@@ -35,10 +35,10 @@ Game::Game()
     score->setPos(650, 400);
 
     // Здоровье
-    // health = new Health();
-    // health->setPos(health->x(), health->y() + 25);
-    // scene->addItem(health);
-    health = 5;
+    health = new Health(5);
+    health->setPos(health->x(), health->y() + 25);
+    scene->addItem(health);
+    connect(health, &Health::gameOverSignal, this, &Game::gameOver);
 
     // Фоновая музыка
     // QMediaPlayer *music = new QMediaPlayer();
@@ -66,26 +66,6 @@ void Game::startFruitsGeneration(int ms)
     QTimer *timer = new QTimer();
     QObject::connect(timer, &QTimer::timeout, this, &Game::generateFruit);
     timer->start(ms);
-}
-#include <QDebug>
-void Game::gameOver()
-{
-    qDebug() << "game over";
-}
-
-void Game::decreaseHealth()
-{
-    health -= 1;
-    updateHearts();
-    if (health == 0)
-    {
-        gameOver();
-    }
-}
-
-void Game::updateHearts()
-{
-    qDebug() << health;
 }
 
 void Game::generateFruit()
@@ -143,5 +123,11 @@ void Game::wormAppleCatched()
 
 void Game::appleCoreCatched()
 {
-    decreaseHealth();
+    health->decrease(1);
+}
+
+#include <QDebug>
+void Game::gameOver()
+{
+    qDebug() << "game over";
 }

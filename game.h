@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "score.h"
+#include "health.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
@@ -28,11 +29,6 @@ public:
 
 private:
     void startFruitsGeneration(int ms);
-    void gameOver();
-
-    void decreaseHealth();
-
-    void updateHearts();
 
 private slots:
     void generateFruit();
@@ -40,6 +36,7 @@ private slots:
     void greenFruitCathed();
     void wormAppleCatched();
     void appleCoreCatched();
+    void gameOver();
 
 private:
     QGraphicsScene *scene;
@@ -49,7 +46,7 @@ private:
 
     Player *player;
     Score *score;
-    int health;
+    Health *health;
 };
 
 #endif // GAME_H
