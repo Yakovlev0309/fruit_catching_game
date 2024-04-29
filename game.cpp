@@ -4,7 +4,7 @@
 #include "wormapple.h"
 #include "applecore.h"
 #include "pear.h"
-#include <QTimer>
+#include <QDebug>
 
 Game::Game()
 {
@@ -14,6 +14,7 @@ Game::Game()
     // Сцена
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, window_size.width(), window_size.height());
+    connect(scene, &QGraphicsScene::focusItemChanged, this, &Game::focusChanged);
 
     // Видимая область
     view = new QGraphicsView(scene);
@@ -22,29 +23,36 @@ Game::Game()
     view->setFixedSize(window_size);
     view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size)));
 
+    // Нижняя часть сцены
+    footer = new Footer();
+    footer->setPos(0, window_size.height() - 70);
+    scene->addItem(footer);
+
+    // Очки
+    score = new Score(0, footer);
+    score->setPos(600, 0);
+
+    // Здоровье
+    health = new Health(5, footer);
+    connect(health, &Health::gameOverSignal, this, &Game::gameOver);
+
     // Игрок
     player = new Player();
-    player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height());
+    player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height() - 50);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
     scene->addItem(player);
 
-    // Очки
-    score = new Score(0);
-    scene->addItem(score);
-    score->setPos(650, 400);
-
-    // Здоровье
-    health = new Health(5);
-    health->setPos(health->x(), health->y() + 25);
-    scene->addItem(health);
-    connect(health, &Health::gameOverSignal, this, &Game::gameOver);
+    // Конец игры
+    game_over = new GameOver(window_size);
+    game_over->setVisible(false);
+    game_over->setZValue(1);
+    scene->addItem(game_over);
 
     // Фоновая музыка
     // QMediaPlayer *music = new QMediaPlayer();
     // music->setMedia(QUrl("qrc:/sounds/background.mp3"));
     // music->play();
-
 }
 
 Game::~Game()
@@ -63,9 +71,9 @@ void Game::start()
 void Game::startFruitsGeneration(int ms)
 {
     // Генерация фруктов
-    QTimer *timer = new QTimer();
-    QObject::connect(timer, &QTimer::timeout, this, &Game::generateFruit);
-    timer->start(ms);
+    fruit_timer = new QTimer(this);
+    QObject::connect(fruit_timer, &QTimer::timeout, this, &Game::generateFruit);
+    fruit_timer->start(ms);
 }
 
 void Game::generateFruit()
@@ -73,7 +81,7 @@ void Game::generateFruit()
     // TODO повышенный шанс появления гнилых фруктов и фруктов с червями
     Fruit *fruit;
     int fruit_number = rand() % fruit_count;
-    int position = rand() % 700;
+    int position = rand() % (window_size.width() - 100);
     void (Game::*fruitCatchedFunction)();
     switch (static_cast<FruitType>(fruit_number))
     {
@@ -126,8 +134,16 @@ void Game::appleCoreCatched()
     health->decrease(1);
 }
 
-#include <QDebug>
 void Game::gameOver()
 {
-    qDebug() << "game over";
+    game_over->setVisible(true);
+    fruit_timer->stop();
+    scene->removeItem(player);
+    // view->setDragMode(QGraphicsView::ScrollHandDrag);
+    // view->setInteractive(false);
+}
+
+void Game::focusChanged()
+{
+    player->setFocus();
 }

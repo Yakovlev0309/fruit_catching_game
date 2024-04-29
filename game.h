@@ -1,11 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "player.h"
+#include "footer.h"
 #include "score.h"
 #include "health.h"
+#include "player.h"
+#include "gameover.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QTimer>
 
 const int fruit_count = 6;
 
@@ -37,16 +40,23 @@ private slots:
     void wormAppleCatched();
     void appleCoreCatched();
     void gameOver();
+    void focusChanged();
+
+signals:
+    void restartSignal();
 
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
 
-    QSize window_size;
-
-    Player *player;
+    Footer *footer;
     Score *score;
     Health *health;
+    Player *player;
+    GameOver *game_over;
+
+    QSize window_size;
+    QTimer *fruit_timer;
 };
 
 #endif // GAME_H

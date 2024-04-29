@@ -9,8 +9,10 @@ CONFIG += c++17 cmdline
 SOURCES += \
         apple.cpp \
         applecore.cpp \
+        footer.cpp \
         fruit.cpp \
         game.cpp \
+        gameover.cpp \
         health.cpp \
         main.cpp \
         pear.cpp \
@@ -26,8 +28,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     apple.h \
     applecore.h \
+    footer.h \
     fruit.h \
     game.h \
+    gameover.h \
     health.h \
     pear.h \
     player.h \

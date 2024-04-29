@@ -17,7 +17,10 @@ Health::Health(int health, QGraphicsItem *parent) : QGraphicsRectItem(parent)
 void Health::decrease(int value)
 {
     health -= value;
-    hearts[health]->hide(); // FIXME index out of range
+    if (health >= 0)
+    {
+        hearts[health]->setVisible(false);
+    }
     if (health <= 0)
     {
         emit gameOverSignal();
