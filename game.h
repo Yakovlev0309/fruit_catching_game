@@ -35,6 +35,7 @@ public:
 
 private:
     void startFruitsGeneration(int ms);
+    void waitAnyKeyPress();
 
 private slots:
     void startClicked();
@@ -51,6 +52,11 @@ private slots:
     void appleCoreCatched();
 
     void focusChanged();
+
+    bool eventFilter(QObject *object, QEvent *event);
+
+signals:
+    void keyPressedSignal();
 
 private:
     QGraphicsScene *scene;

@@ -4,6 +4,7 @@
 #include "wormapple.h"
 #include "applecore.h"
 #include "pear.h"
+#include <QEventLoop>
 
 Game::Game()
 {
@@ -57,7 +58,7 @@ Game::Game()
     score->setPos(580, 0);
 
     // Здоровье
-    health = new Health(5, footer);
+    health = new Health(1, footer);
     connect(health, &Health::gameOverSignal, this, &Game::gameOver);
 
     // Игрок
@@ -130,6 +131,17 @@ void Game::startFruitsGeneration(int ms)
     fruit_timer->start(ms);
 }
 
+void Game::waitAnyKeyPress()
+{
+    view->installEventFilter(this);
+    QEventLoop loop;
+    connect(this, &Game::keyPressedSignal, [&]() {
+        loop.quit();
+    });
+    loop.exec();
+    view->removeEventFilter(this);
+}
+
 void Game::generateFruit()
 {
     Fruit *fruit;
@@ -189,10 +201,19 @@ void Game::appleCoreCatched()
 
 void Game::gameOver()
 {
+    pause->setVisible(false);
+
     game_over->setVisible(true);
+
     fruit_timer->stop();
     scene->removeItem(player);
-    // TODO ожидание нажатия любой кнопки
+
+    waitAnyKeyPress();
+
+    game_over->setVisible(false);
+    footer->setVisible(false);
+
+    menu->setVisible(true);
 }
 
 void Game::focusChanged()
@@ -201,4 +222,13 @@ void Game::focusChanged()
     {
         player->setFocus();
     }
+}
+
+bool Game::eventFilter(QObject *object, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress)
+    {
+        emit keyPressedSignal();
+    }
+    return QObject::eventFilter(object, event);
 }
