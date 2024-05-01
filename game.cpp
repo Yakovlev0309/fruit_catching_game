@@ -4,7 +4,6 @@
 #include "wormapple.h"
 #include "applecore.h"
 #include "pear.h"
-#include <QDebug>
 
 Game::Game()
 {
@@ -23,14 +22,39 @@ Game::Game()
     view->setFixedSize(window_size);
     view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size)));
 
+    // Меню
+    menu_widget = new MainMenu();
+    menu = scene->addWidget(menu_widget);
+    menu->setPos(view->width() / 2 - menu->boundingRect().width() / 2, view->height() / 2 - menu->boundingRect().height() / 2);
+    menu->setZValue(1);
+    connect(menu_widget, &MainMenu::startSignal, this, &Game::startClicked);
+
+    // Кнопка паузы
+    pause_widget = new Pause();
+    pause = scene->addWidget(pause_widget);
+    pause->setPos(10, 10);
+    pause->setZValue(1);
+    pause->setVisible(false);
+    connect(pause_widget, &Pause::pauseSignal, this, &Game::pauseClicked);
+
+    // Меню паузы
+    pause_menu_widget = new PauseMenu();
+    pause_menu = scene->addWidget(pause_menu_widget);
+    pause_menu->setPos(view->width() / 2 - pause_menu->boundingRect().width() / 2, view->height() / 2 - pause_menu->boundingRect().height() / 2);
+    pause_menu->setZValue(1);
+    pause_menu->setVisible(false);
+    connect(pause_menu_widget, &PauseMenu::continueSignal, this, &Game::continueClicked);
+    connect(pause_menu_widget, &PauseMenu::mainMenuSignal, this, &Game::mainMenuClicked);
+
     // Нижняя часть сцены
     footer = new Footer();
     footer->setPos(0, window_size.height() - 70);
+    footer->setVisible(false);
     scene->addItem(footer);
 
     // Очки
     score = new Score(0, footer);
-    score->setPos(600, 0);
+    score->setPos(580, 0);
 
     // Здоровье
     health = new Health(5, footer);
@@ -41,6 +65,7 @@ Game::Game()
     player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height() - 50);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
+    player->setVisible(false);
     scene->addItem(player);
 
     // Конец игры
@@ -49,10 +74,7 @@ Game::Game()
     game_over->setZValue(1);
     scene->addItem(game_over);
 
-    // Фоновая музыка
-    // QMediaPlayer *music = new QMediaPlayer();
-    // music->setMedia(QUrl("qrc:/sounds/background.mp3"));
-    // music->play();
+    view->show();
 }
 
 Game::~Game()
@@ -60,25 +82,56 @@ Game::~Game()
     delete scene;
 }
 
-void Game::start()
+void Game::startClicked()
 {
-    view->show();
+    menu->setVisible(false);
+    game_over->setVisible(false);
+    footer->setVisible(true);
+    pause->setVisible(true);
+
+    player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height() - 50);
+    player->setVisible(true);
 
     // Генерация фруктов
     startFruitsGeneration(1000);
+}
+
+void Game::pauseClicked()
+{
+    pause->setVisible(false);
+
+    pause_menu->setVisible(true);
+}
+
+void Game::continueClicked()
+{
+    pause_menu->setVisible(false);
+
+    pause->setVisible(true);
+}
+
+void Game::mainMenuClicked()
+{
+    pause->setVisible(false);
+    pause_menu->setVisible(false);
+    footer->setVisible(false);
+    player->setVisible(false);
+
+    menu->setVisible(true);
+
+    fruit_timer->stop();
 }
 
 void Game::startFruitsGeneration(int ms)
 {
     // Генерация фруктов
     fruit_timer = new QTimer(this);
-    QObject::connect(fruit_timer, &QTimer::timeout, this, &Game::generateFruit);
+    connect(fruit_timer, &QTimer::timeout, this, &Game::generateFruit);
     fruit_timer->start(ms);
 }
 
 void Game::generateFruit()
 {
-    // TODO повышенный шанс появления гнилых фруктов и фруктов с червями
     Fruit *fruit;
     int fruit_number = rand() % fruit_count;
     int position = rand() % (window_size.width() - 100);
@@ -139,11 +192,13 @@ void Game::gameOver()
     game_over->setVisible(true);
     fruit_timer->stop();
     scene->removeItem(player);
-    // view->setDragMode(QGraphicsView::ScrollHandDrag);
-    // view->setInteractive(false);
+    // TODO ожидание нажатия любой кнопки
 }
 
 void Game::focusChanged()
 {
-    player->setFocus();
+    if (player->isVisible()) // FIXME заменить на if (started)
+    {
+        player->setFocus();
+    }
 }

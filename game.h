@@ -6,9 +6,13 @@
 #include "health.h"
 #include "player.h"
 #include "gameover.h"
+#include "mainmenu.h"
+#include "pause.h"
+#include "pausemenu.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QGraphicsProxyWidget>
 
 const int fruit_count = 6;
 
@@ -28,26 +32,36 @@ class Game : public QObject
 public:
     Game();
     ~Game();
-    void start();
 
 private:
     void startFruitsGeneration(int ms);
 
 private slots:
+    void startClicked();
+    void pauseClicked();
+    void continueClicked();
+    void mainMenuClicked();
+
     void generateFruit();
+    void gameOver();
+
     void redFruitCathed();
     void greenFruitCathed();
     void wormAppleCatched();
     void appleCoreCatched();
-    void gameOver();
-    void focusChanged();
 
-signals:
-    void restartSignal();
+    void focusChanged();
 
 private:
     QGraphicsScene *scene;
     QGraphicsView *view;
+
+    MainMenu *menu_widget;
+    QGraphicsProxyWidget *menu;
+    Pause *pause_widget;
+    QGraphicsProxyWidget *pause;
+    PauseMenu *pause_menu_widget;
+    QGraphicsProxyWidget *pause_menu;
 
     Footer *footer;
     Score *score;

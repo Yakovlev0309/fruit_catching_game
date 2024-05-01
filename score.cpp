@@ -7,7 +7,7 @@ Score::Score(int score, QGraphicsItem *parent) : QGraphicsTextItem(parent)
 
     setPlainText("счет: " + QString::number(score));
     setDefaultTextColor(Qt::white);
-    setFont(QFont("consolas", 24));
+    setFont(QFont("Comic Sans MS", 24));
 }
 
 void Score::increase(int value)
