@@ -5,9 +5,16 @@
 #include "applecore.h"
 #include "pear.h"
 #include <QEventLoop>
+#include <QDate>
+#include <QTime>
 
 Game::Game()
 {
+    results_path = "results.txt";
+    start_health = 1;
+    start_score = 0;
+    fruit_generation_period = 1000; // мс
+
     // Задание размеров окна
     window_size = QSize(800, 450);
 
@@ -51,14 +58,15 @@ Game::Game()
     footer = new Footer();
     footer->setPos(0, window_size.height() - 70);
     footer->setVisible(false);
+    footer->setZValue(1);
     scene->addItem(footer);
 
     // Очки
-    score = new Score(0, footer);
+    score = new Score(start_score, footer);
     score->setPos(580, 0);
 
     // Здоровье
-    health = new Health(1, footer);
+    health = new Health(start_health, footer);
     connect(health, &Health::gameOverSignal, this, &Game::gameOver);
 
     // Игрок
@@ -90,11 +98,15 @@ void Game::startClicked()
     footer->setVisible(true);
     pause->setVisible(true);
 
+    health->set(start_health);
+    score->set(start_score);
+
     player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height() - 50);
     player->setVisible(true);
+    player->setFocus();
 
     // Генерация фруктов
-    startFruitsGeneration(1000);
+    startFruitsGeneration(fruit_generation_period);
 }
 
 void Game::pauseClicked()
@@ -206,7 +218,9 @@ void Game::gameOver()
     game_over->setVisible(true);
 
     fruit_timer->stop();
-    scene->removeItem(player);
+    player->setVisible(false);
+
+    writeResult();
 
     waitAnyKeyPress();
 
@@ -231,4 +245,63 @@ bool Game::eventFilter(QObject *object, QEvent *event)
         emit keyPressedSignal();
     }
     return QObject::eventFilter(object, event);
+}
+
+void Game::writeResult()
+{
+    QFile file(results_path);
+    QStringList results = readResults();
+    QString result = "Количество очков: ";
+    result += QString::number(score->get());
+    result += " | Дата: ";
+    result += QDate::currentDate().toString();
+    result += " | Время: ";
+    result += QTime::currentTime().toString();
+    QString text = updateResults(results, result);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        file.write(text.toStdString().c_str());
+    }
+    file.close();
+}
+
+QStringList Game::readResults()
+{
+    QStringList result;
+    QFile file(results_path);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QByteArray data = file.readAll();
+        QString text = QString::fromUtf8(data);
+        result = text.split('\n');
+    }
+    file.close();
+    return result;
+}
+
+QString Game::updateResults(const QStringList &results, const QString &result)
+{
+    QStringList new_results = results;
+    if (results.size() < max_results_count)
+    {
+        new_results.append(result);
+    }
+    else
+    {
+        QStringList str = result.split(" | ");
+        int score = str[2].remove("Количество очков: ").toInt();
+
+        new_results.sort();
+        for (int i = 0; i < max_results_count; ++i)
+        {
+            QStringList str = new_results[i].split(" | ");
+            if (score > str[0].remove("Количество очков: ").toInt())
+            {
+                new_results.insert(i, result);
+                new_results.pop_back();
+                break;
+            }
+        }
+    }
+    return new_results.join("\n");
 }

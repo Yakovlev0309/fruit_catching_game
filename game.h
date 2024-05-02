@@ -37,6 +37,10 @@ private:
     void startFruitsGeneration(int ms);
     void waitAnyKeyPress();
 
+    void writeResult();
+    QStringList readResults();
+    QString updateResults(const QStringList &results, const QString &result);
+
 private slots:
     void startClicked();
     void pauseClicked();
@@ -77,6 +81,13 @@ private:
 
     QSize window_size;
     QTimer *fruit_timer;
+
+    QString results_path;
+    int max_results_count;
+
+    int start_health;
+    int start_score;
+    int fruit_generation_period;
 };
 
 #endif // GAME_H

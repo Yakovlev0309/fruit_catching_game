@@ -17,11 +17,9 @@ void Fruit::move()
     for (QGraphicsItem *item : colliding_items)
     {
         if (typeid(*(item)) == typeid(Player))
-        {
-            // game->score->increase();
-            emit fruitCatchedSignal();
-
+        {            
             scene()->removeItem(this);
+            emit fruitCatchedSignal();
             delete this;
 
             return;
