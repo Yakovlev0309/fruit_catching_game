@@ -21,6 +21,7 @@ SOURCES += \
         pausemenu.cpp \
         pear.cpp \
         player.cpp \
+        results.cpp \
         return.cpp \
         score.cpp \
         settingsmenu.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     pausemenu.h \
     pear.h \
     player.h \
+    results.h \
     return.h \
     score.h \
     settingsmenu.h \
@@ -57,5 +59,6 @@ FORMS += \
     mainmenu.ui \
     pause.ui \
     pausemenu.ui \
+    results.ui \
     return.ui \
     settingsmenu.ui

@@ -8,6 +8,8 @@
 #include <QDate>
 #include <QTime>
 
+// TODO перенести кнопки Return в те классы, где они нужны
+
 Game::Game()
 {
     max_results_count = 10;
@@ -37,6 +39,7 @@ Game::Game()
     menu->setPos(view->width() / 2 - menu->boundingRect().width() / 2, view->height() / 2 - menu->boundingRect().height() / 2);
     menu->setZValue(1);
     connect(menu_widget, &MainMenu::startSignal, this, &Game::startClicked);
+    connect(menu_widget, &MainMenu::resultsSignal, this, &Game::resultsClicked);
     connect(menu_widget, &MainMenu::settingsSignal, this, &Game::settingsClicked);
 
     // Кнопка возврата
@@ -47,6 +50,13 @@ Game::Game()
     return_button->setVisible(false);
     connect(return_widget, &Return::returnSignal, this, &Game::returnClicked);
 
+    // Список результатов
+    results_widget = new Results();
+    results = scene->addWidget(results_widget);
+    results->setPos(view->width() / 2 - results->boundingRect().width() / 2, view->height() / 2 - results->boundingRect().height() / 2);
+    results->setZValue(1);
+    results->setVisible(false);
+
     // Меню настроек
     settings_menu_widget = new SettingsMenu();
     settings_menu = scene->addWidget(settings_menu_widget);
@@ -55,6 +65,8 @@ Game::Game()
     settings_menu->setVisible(false);
     connect(settings_menu_widget, &SettingsMenu::fruitGenerationPeriodChangedSignal, this, &Game::fruitGenerationPeriodChanged);
     settings_menu_widget->setFruitGenerationPeriodSettings(500, 3000, fruit_generation_period);
+    connect(settings_menu_widget, &SettingsMenu::heartCountChangedSignal, this, &Game::heartCountChanged);
+    settings_menu_widget->setHealthSettings(1, 5, start_health);
 
     // Кнопка паузы
     pause_widget = new Pause();
@@ -138,10 +150,20 @@ void Game::returnClicked()
     }
     else
     {
-        // TODO results->setVisible(false);
+        results->setVisible(false);
     }
 
     menu->setVisible(true);
+}
+
+void Game::resultsClicked()
+{
+    menu->setVisible(false);
+
+    results_widget->fillTable(readResults());
+
+    return_button->setVisible(true);
+    results->setVisible(true);
 }
 
 void Game::settingsClicked()
@@ -257,6 +279,11 @@ void Game::appleCoreCatched()
 void Game::fruitGenerationPeriodChanged(int period)
 {
     fruit_generation_period = period;
+}
+
+void Game::heartCountChanged(int count)
+{
+    start_health = count;
 }
 
 void Game::gameOver()

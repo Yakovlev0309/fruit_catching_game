@@ -1,4 +1,5 @@
 #include "menu.h"
+#include <QTableWidgetItem>
 
 Menu::Menu(QWidget *parent) : QWidget(parent)
 {
@@ -11,12 +12,20 @@ Menu::Menu(QWidget *parent) : QWidget(parent)
         "   padding: 4px;"
         "   margin: 4px"
         "}"
-        "QPushButton, QLineEdit {"
+        "QWidget {"
         "   border: 3px solid yellow;"
+        "}"
+        "QLabel {"
+        "   border: 0px solid black;"
         "}"
         "QPushButton:pressed {"
         "   border: 3px solid orange;"
         "   color: orange;"
+        "}"
+        "QTableWidget, QHeaderView {"
+        "   text-align: center;"
+        "   background-color: white;"
+        "   color: black;"
         "}"
         );
 }

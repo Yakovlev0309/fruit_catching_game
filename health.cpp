@@ -27,14 +27,17 @@ void Health::set(int health)
 {
     if (health != this->health)
     {
-        hearts.clear();
-        hearts.reserve(health);
+        for (int i = 0; i < hearts.size(); ++i)
+        {
+            delete hearts[i];
+        }
+        hearts.resize(health);
         for (int i = 0; i < health; ++i)
         {
             int divider = 40;
             QPixmap pixmap = QPixmap(":/images/heart.png");
             pixmap = pixmap.scaled(pixmap.size() / divider);
-            hearts.push_back(new QGraphicsPixmapItem(pixmap, this));
+            hearts[i] = new QGraphicsPixmapItem(pixmap, this);
             hearts[i]->setPos(i * 55, 0);
         }
     }
