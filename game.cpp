@@ -10,10 +10,11 @@
 
 Game::Game()
 {
+    max_results_count = 10;
     results_path = "results.txt";
     start_health = 1;
     start_score = 0;
-    fruit_generation_period = 1000; // мс
+    fruit_generation_period = 1000;
 
     // Задание размеров окна
     window_size = QSize(800, 450);
@@ -281,26 +282,33 @@ QStringList Game::readResults()
 
 QString Game::updateResults(const QStringList &results, const QString &result)
 {
-    QStringList new_results = results;
-    if (results.size() < max_results_count)
+    QStringList new_results(results);
+    if (new_results.count() < max_results_count)
     {
         new_results.append(result);
     }
     else
     {
-        QStringList str = result.split(" | ");
-        int score = str[2].remove("Количество очков: ").toInt();
-
-        new_results.sort();
-        for (int i = 0; i < max_results_count; ++i)
+        int min_index = 0;
+        int min_score = -1;
+        int current_score;
+        for (int i = 0; i < results.size(); ++i)
         {
-            QStringList str = new_results[i].split(" | ");
-            if (score > str[0].remove("Количество очков: ").toInt())
+            current_score = new_results[i].split(" | ")[0].remove("Количество очков: ").toInt();
+            if (min_score == -1)
             {
-                new_results.insert(i, result);
-                new_results.pop_back();
-                break;
+                min_score = current_score;
             }
+            if (current_score < min_score)
+            {
+                min_index = i;
+                min_score = current_score;
+            }
+        }
+        int new_score = result.split(" | ")[0].remove("Количество очков: ").toInt();
+        if (new_score > min_score)
+        {
+            new_results[min_index] = result;
         }
     }
     return new_results.join("\n");
