@@ -17,12 +17,13 @@ SOURCES += \
         main.cpp \
         mainmenu.cpp \
         menu.cpp \
-        menubutton.cpp \
         pause.cpp \
         pausemenu.cpp \
         pear.cpp \
         player.cpp \
+        return.cpp \
         score.cpp \
+        settingsmenu.cpp \
         wormapple.cpp
 
 # Default rules for deployment.
@@ -40,12 +41,13 @@ HEADERS += \
     health.h \
     mainmenu.h \
     menu.h \
-    menubutton.h \
     pause.h \
     pausemenu.h \
     pear.h \
     player.h \
+    return.h \
     score.h \
+    settingsmenu.h \
     wormapple.h
 
 RESOURCES += \
@@ -54,4 +56,6 @@ RESOURCES += \
 FORMS += \
     mainmenu.ui \
     pause.ui \
-    pausemenu.ui
+    pausemenu.ui \
+    return.ui \
+    settingsmenu.ui

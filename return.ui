@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Pause</class>
- <widget class="QWidget" name="Pause">
+ <class>Return</class>
+ <widget class="QWidget" name="Return">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,9 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QPushButton" name="pause_button">
+    <widget class="QPushButton" name="return_button">
      <property name="text">
-      <string>||</string>
+      <string>&lt;</string>
      </property>
     </widget>
    </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>287</width>
-    <height>123</height>
+    <height>159</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,21 +15,28 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="MenuButton" name="play_button">
+    <widget class="QPushButton" name="play_button">
      <property name="text">
       <string>Играть</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="MenuButton" name="results_button">
+    <widget class="QPushButton" name="results_button">
      <property name="text">
       <string>Показать список результатов</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="MenuButton" name="exit_button">
+    <widget class="QPushButton" name="settings_button">
+     <property name="text">
+      <string>Настройки</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="exit_button">
      <property name="text">
       <string>Выход</string>
      </property>
@@ -37,13 +44,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MenuButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">menubutton.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

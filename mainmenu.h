@@ -20,8 +20,12 @@ private slots:
     void on_results_button_clicked();
     void on_exit_button_clicked();
 
+    void on_settings_button_clicked();
+
 signals:
     void startSignal();
+    void resultsSignal();
+    void settingsSignal();
 
 private:
     Ui::MainMenu *ui;

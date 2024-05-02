@@ -9,6 +9,8 @@
 #include "mainmenu.h"
 #include "pause.h"
 #include "pausemenu.h"
+#include "settingsmenu.h"
+#include "return.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QTimer>
@@ -43,17 +45,21 @@ private:
 
 private slots:
     void startClicked();
+    void returnClicked();
+    void settingsClicked();
     void pauseClicked();
     void continueClicked();
     void mainMenuClicked();
-
-    void generateFruit();
-    void gameOver();
 
     void redFruitCathed();
     void greenFruitCathed();
     void wormAppleCatched();
     void appleCoreCatched();
+
+    void fruitGenerationPeriodChanged(int period);
+
+    void generateFruit();
+    void gameOver();
 
     void focusChanged();
 
@@ -69,9 +75,13 @@ private:
     MainMenu *menu_widget;
     QGraphicsProxyWidget *menu;
     Pause *pause_widget;
-    QGraphicsProxyWidget *pause;
+    QGraphicsProxyWidget *pause_button;
     PauseMenu *pause_menu_widget;
     QGraphicsProxyWidget *pause_menu;
+    SettingsMenu *settings_menu_widget;
+    QGraphicsProxyWidget *settings_menu;
+    Return *return_widget;
+    QGraphicsProxyWidget *return_button;
 
     Footer *footer;
     Score *score;

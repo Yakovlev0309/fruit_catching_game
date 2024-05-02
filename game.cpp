@@ -37,13 +37,31 @@ Game::Game()
     menu->setPos(view->width() / 2 - menu->boundingRect().width() / 2, view->height() / 2 - menu->boundingRect().height() / 2);
     menu->setZValue(1);
     connect(menu_widget, &MainMenu::startSignal, this, &Game::startClicked);
+    connect(menu_widget, &MainMenu::settingsSignal, this, &Game::settingsClicked);
+
+    // Кнопка возврата
+    return_widget = new Return();
+    return_button = scene->addWidget(return_widget);
+    return_button->setPos(10, 10);
+    return_button->setZValue(1);
+    return_button->setVisible(false);
+    connect(return_widget, &Return::returnSignal, this, &Game::returnClicked);
+
+    // Меню настроек
+    settings_menu_widget = new SettingsMenu();
+    settings_menu = scene->addWidget(settings_menu_widget);
+    settings_menu->setPos(view->width() / 2 - settings_menu->boundingRect().width() / 2, view->height() / 2 - settings_menu->boundingRect().height() / 2);
+    settings_menu->setZValue(1);
+    settings_menu->setVisible(false);
+    connect(settings_menu_widget, &SettingsMenu::fruitGenerationPeriodChangedSignal, this, &Game::fruitGenerationPeriodChanged);
+    settings_menu_widget->setFruitGenerationPeriodSettings(500, 3000, fruit_generation_period);
 
     // Кнопка паузы
     pause_widget = new Pause();
-    pause = scene->addWidget(pause_widget);
-    pause->setPos(10, 10);
-    pause->setZValue(1);
-    pause->setVisible(false);
+    pause_button = scene->addWidget(pause_widget);
+    pause_button->setPos(10, 10);
+    pause_button->setZValue(1);
+    pause_button->setVisible(false);
     connect(pause_widget, &Pause::pauseSignal, this, &Game::pauseClicked);
 
     // Меню паузы
@@ -97,7 +115,7 @@ void Game::startClicked()
     menu->setVisible(false);
     game_over->setVisible(false);
     footer->setVisible(true);
-    pause->setVisible(true);
+    pause_button->setVisible(true);
 
     health->set(start_health);
     score->set(start_score);
@@ -110,9 +128,33 @@ void Game::startClicked()
     startFruitsGeneration(fruit_generation_period);
 }
 
+void Game::returnClicked()
+{
+    return_button->setVisible(false);
+
+    if (settings_menu->isVisible())
+    {
+        settings_menu->setVisible(false);
+    }
+    else
+    {
+        // TODO results->setVisible(false);
+    }
+
+    menu->setVisible(true);
+}
+
+void Game::settingsClicked()
+{
+    menu->setVisible(false);
+
+    return_button->setVisible(true);
+    settings_menu->setVisible(true);
+}
+
 void Game::pauseClicked()
 {
-    pause->setVisible(false);
+    pause_button->setVisible(false);
 
     pause_menu->setVisible(true);
 }
@@ -121,12 +163,12 @@ void Game::continueClicked()
 {
     pause_menu->setVisible(false);
 
-    pause->setVisible(true);
+    pause_button->setVisible(true);
 }
 
 void Game::mainMenuClicked()
 {
-    pause->setVisible(false);
+    pause_button->setVisible(false);
     pause_menu->setVisible(false);
     footer->setVisible(false);
     player->setVisible(false);
@@ -212,9 +254,14 @@ void Game::appleCoreCatched()
     health->decrease(1);
 }
 
+void Game::fruitGenerationPeriodChanged(int period)
+{
+    fruit_generation_period = period;
+}
+
 void Game::gameOver()
 {
-    pause->setVisible(false);
+    pause_button->setVisible(false);
 
     game_over->setVisible(true);
 
@@ -233,7 +280,7 @@ void Game::gameOver()
 
 void Game::focusChanged()
 {
-    if (player->isVisible()) // FIXME заменить на if (started)
+    if (player->isVisible())
     {
         player->setFocus();
     }

@@ -21,7 +21,12 @@ void MainMenu::on_play_button_clicked()
 
 void MainMenu::on_results_button_clicked()
 {
+    emit resultsSignal();
+}
 
+void MainMenu::on_settings_button_clicked()
+{
+    emit settingsSignal();
 }
 
 void MainMenu::on_exit_button_clicked()
