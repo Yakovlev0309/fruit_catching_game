@@ -32,6 +32,7 @@ Game::Game()
     view->setFixedSize(window_size);
     view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size)));
     view->setWindowIcon(QIcon(":/images/apple2.png"));
+    view->setWindowTitle("Ловля фруктов");
 
     // Меню
     menu_widget = new MainMenu();
@@ -99,7 +100,7 @@ Game::Game()
 
     // Игрок
     player = new Player();
-    player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height() - 50);
+    player->setPos(view->width() / 2 - player->boundingRect().width() / 2, view->height() - player->boundingRect().height());
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
     player->setVisible(false);

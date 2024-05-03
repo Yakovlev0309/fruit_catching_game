@@ -6,7 +6,7 @@ Player::Player(QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
     step = 10;
 
-    int divider = 35;
+    int divider = 30;
     right_pixmap = QPixmap(":/images/character.png");
     right_pixmap = right_pixmap.scaled(right_pixmap.size() / divider);
     setPixmap(right_pixmap);
