@@ -123,4 +123,5 @@ void SettingsMenu::on_choose_path_button_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this, "Выбор пути сохранения результатов", "");
     emit resultsPathChangedSignal(QDir::fromNativeSeparators(path + "/results.txt"));
+    setResultsPathSetting(QDir::fromNativeSeparators(path + "/results.txt"));
 }
