@@ -1,6 +1,7 @@
 #include "results.h"
 #include "ui_results.h"
 #include <QSizePolicy>
+#include <QScrollBar>>
 
 Results::Results(const QSize &window_size, QWidget *parent)
     : Menu(parent)
@@ -14,6 +15,8 @@ Results::Results(const QSize &window_size, QWidget *parent)
     ui->results_table->setSortingEnabled(true);
     ui->results_table->horizontalHeader()->setFixedHeight(70);
     ui->results_table->setFixedSize(width() - 200, height() - 100);
+    ui->results_table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->results_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 
     // Кнопка возврата
     return_widget = new Return(this);
@@ -38,8 +41,6 @@ void Results::fillTable(const QStringList &results)
         ui->results_table->setItem(i, 1, new QTableWidgetItem(row[1].remove("Дата: ").toStdString().c_str()));
         ui->results_table->setItem(i, 2, new QTableWidgetItem(row[2].remove("Время: ").toStdString().c_str()));
     }
-    ui->results_table->resizeColumnsToContents();
-    ui->results_table->resizeRowsToContents();
 }
 
 void Results::returnClicked()

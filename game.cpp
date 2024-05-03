@@ -335,6 +335,7 @@ void Game::gameOver()
     game_over->setVisible(true);
 
     fruit_timer->stop();
+    removeFruits();
     player->setVisible(false);
 
     writeResult();
