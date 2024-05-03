@@ -29,8 +29,3 @@ Menu::Menu(QWidget *parent) : QWidget(parent)
         "}"
         );
 }
-
-// "QPushButton:hover {"
-// "   border: 3px solid #ADFF2F;"
-// "   color: #ADFF2F;"
-// "}"
