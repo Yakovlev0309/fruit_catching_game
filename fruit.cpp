@@ -1,18 +1,29 @@
 #include "fruit.h"
 #include "player.h"
-#include <QTimer>
 #include <QGraphicsScene>
 
 Fruit::Fruit(QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Fruit::move);
+    move_timer = new QTimer(this);
+    connect(move_timer, &QTimer::timeout, this, &Fruit::move);
+    move_timer->start(50);
+}
 
-    timer->start(50);
+void Fruit::start()
+{
+    move_timer->start();
+}
+
+void Fruit::stop()
+{
+    move_timer->stop();
 }
 
 void Fruit::move()
 {
+    if (!move_timer->isActive())
+        return;
+
     QList<QGraphicsItem *> colliding_items = collidingItems();
     for (QGraphicsItem *item : colliding_items)
     {

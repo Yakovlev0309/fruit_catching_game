@@ -2,6 +2,7 @@
 #define FRUIT_H
 
 #include <QGraphicsPixmapItem>
+#include <QTimer>
 
 class Fruit : public QObject, public QGraphicsPixmapItem
 {
@@ -9,11 +10,17 @@ class Fruit : public QObject, public QGraphicsPixmapItem
 public:
     Fruit(QGraphicsItem *parent = nullptr);
 
+    void start();
+    void stop();
+
+private:
+    void move();
+
 signals:
     void fruitCatchedSignal();
 
 private:
-    void move();
+    QTimer *move_timer;
 };
 
 #endif // FRUIT_H

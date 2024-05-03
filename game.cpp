@@ -139,11 +139,11 @@ void Game::startClicked()
 
 void Game::returnClicked()
 {
-    if (settings_menu->isVisible())
+    if (settings_menu->isVisible()) // Открыто меню настроек
     {
         settings_menu->setVisible(false);
     }
-    else
+    else // Открыт список результатов
     {
         results->setVisible(false);
     }
@@ -171,12 +171,18 @@ void Game::pauseClicked()
 {
     pause_button->setVisible(false);
 
+    fruit_timer->stop();
+    freezeFruits();
+
     pause_menu->setVisible(true);
 }
 
 void Game::continueClicked()
 {
     pause_menu->setVisible(false);
+
+    fruit_timer->start();
+    unfreezeFruits();
 
     pause_button->setVisible(true);
 }
@@ -191,6 +197,7 @@ void Game::mainMenuClicked()
     menu->setVisible(true);
 
     fruit_timer->stop();
+    removeFruits();
 }
 
 void Game::startFruitsGeneration(int ms)
@@ -210,6 +217,43 @@ void Game::waitAnyKeyPress()
     });
     loop.exec();
     view->removeEventFilter(this);
+}
+
+void Game::removeFruits()
+{
+    QList<QGraphicsItem *> items = scene->items();
+    for (auto item : items)
+    {
+        if (dynamic_cast<const Fruit *>(item) != nullptr)
+        {
+            scene->removeItem(item);
+            delete item;
+        }
+    }
+}
+
+void Game::freezeFruits()
+{
+    QList<QGraphicsItem *> items = scene->items();
+    for (auto item : items)
+    {
+        if (dynamic_cast<const Fruit *>(item) != nullptr)
+        {
+            dynamic_cast<Fruit *>(item)->stop();
+        }
+    }
+}
+
+void Game::unfreezeFruits()
+{
+    QList<QGraphicsItem *> items = scene->items();
+    for (auto item : items)
+    {
+        if (dynamic_cast<const Fruit *>(item) != nullptr)
+        {
+            dynamic_cast<Fruit *>(item)->start();
+        }
+    }
 }
 
 void Game::generateFruit()

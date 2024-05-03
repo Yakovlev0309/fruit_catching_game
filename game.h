@@ -38,6 +38,9 @@ public:
 private:
     void startFruitsGeneration(int ms);
     void waitAnyKeyPress();
+    void removeFruits();
+    void freezeFruits();
+    void unfreezeFruits();
 
     void writeResult();
     QStringList readResults();
