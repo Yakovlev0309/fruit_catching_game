@@ -1,5 +1,7 @@
 #include "settingsmenu.h"
 #include "ui_settingsmenu.h"
+#include <QDir>
+#include <QFileDialog>
 
 SettingsMenu::SettingsMenu(QWidget *parent)
     : Menu(parent)
@@ -14,6 +16,12 @@ SettingsMenu::SettingsMenu(QWidget *parent)
 SettingsMenu::~SettingsMenu()
 {
     delete ui;
+}
+
+void SettingsMenu::setResultsPathSetting(const QString &path)
+{
+    ui->results_path_edit->setText(path);
+    results_path = path;
 }
 
 void SettingsMenu::setFruitGenerationPeriodSettings(int min_period, int max_period, int current_period)
@@ -78,4 +86,21 @@ void SettingsMenu::on_heart_count_down_button_clicked()
     }
 }
 
-// TODO изменение пути
+void SettingsMenu::on_results_path_edit_textChanged(const QString &path)
+{
+    QString res_path = QDir::fromNativeSeparators(path);
+    if (res_path.endsWith(".txt"))
+    {
+        emit resultsPathChangedSignal(res_path);
+    }
+    else
+    {
+        emit resultsPathChangedSignal(QDir::fromNativeSeparators(res_path + "/results.txt"));
+    }
+}
+
+void SettingsMenu::on_choose_path_button_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory(this, "Выбор пути сохранения результатов", "");
+    emit resultsPathChangedSignal(QDir::fromNativeSeparators(path + "/results.txt"));
+}

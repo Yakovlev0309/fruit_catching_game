@@ -58,6 +58,7 @@ private slots:
     void wormAppleCatched();
     void appleCoreCatched();
 
+    void resultsPathChanged(const QString &path);
     void fruitGenerationPeriodChanged(int period);
     void heartCountChanged(int count);
 

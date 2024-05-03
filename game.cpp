@@ -7,6 +7,7 @@
 #include <QEventLoop>
 #include <QDate>
 #include <QTime>
+#include <QIcon>
 
 // TODO перенести кнопки Return в те классы, где они нужны
 
@@ -32,6 +33,7 @@ Game::Game()
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setFixedSize(window_size);
     view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size)));
+    view->setWindowIcon(QIcon(":/images/apple2.png"));
 
     // Меню
     menu_widget = new MainMenu();
@@ -63,6 +65,8 @@ Game::Game()
     settings_menu->setPos(view->width() / 2 - settings_menu->boundingRect().width() / 2, view->height() / 2 - settings_menu->boundingRect().height() / 2);
     settings_menu->setZValue(1);
     settings_menu->setVisible(false);
+    connect(settings_menu_widget, &SettingsMenu::resultsPathChangedSignal, this, &Game::resultsPathChanged);
+    settings_menu_widget->setResultsPathSetting(results_path);
     connect(settings_menu_widget, &SettingsMenu::fruitGenerationPeriodChangedSignal, this, &Game::fruitGenerationPeriodChanged);
     settings_menu_widget->setFruitGenerationPeriodSettings(500, 3000, fruit_generation_period);
     connect(settings_menu_widget, &SettingsMenu::heartCountChangedSignal, this, &Game::heartCountChanged);
@@ -274,6 +278,11 @@ void Game::wormAppleCatched()
 void Game::appleCoreCatched()
 {
     health->decrease(1);
+}
+
+void Game::resultsPathChanged(const QString &path)
+{
+    results_path = path;
 }
 
 void Game::fruitGenerationPeriodChanged(int period)

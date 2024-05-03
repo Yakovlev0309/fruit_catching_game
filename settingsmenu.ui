@@ -91,15 +91,22 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="results_path_edit"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="choose_path_button">
+        <property name="text">
+         <string>Выбрать путь</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" rowspan="2">
        <widget class="QLabel" name="results_path_text_label">
         <property name="text">
          <string>Путь сохранения результатов</string>
         </property>
        </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="results_path_edit"/>
       </item>
      </layout>
     </widget>
