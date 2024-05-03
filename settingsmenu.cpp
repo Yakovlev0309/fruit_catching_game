@@ -20,6 +20,12 @@ SettingsMenu::SettingsMenu(const QSize &window_size, QWidget *parent)
     return_widget->move(10, 10);
     return_widget->setFixedSize(100, 100);
     connect(return_widget, &Return::returnSignal, this, &SettingsMenu::returnClicked);
+
+    ui->main_widget->setStyleSheet(ui->main_widget->styleSheet() +
+        "font: 20px Comic Sans MS;"
+        "padding: 2px;"
+        "margin: 2px"
+        );
 }
 
 SettingsMenu::~SettingsMenu()

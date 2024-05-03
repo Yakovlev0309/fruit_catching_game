@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
+    <width>499</width>
     <height>340</height>
    </rect>
   </property>
@@ -99,7 +99,7 @@
          <item row="1" column="0" rowspan="2">
           <widget class="QLabel" name="fruit_generation_period_text_label">
            <property name="text">
-            <string>Период появления фруктов</string>
+            <string>Период появления фруктов (мс)</string>
            </property>
           </widget>
          </item>

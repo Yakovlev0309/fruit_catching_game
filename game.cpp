@@ -259,38 +259,42 @@ void Game::unfreezeFruits()
 void Game::generateFruit()
 {
     Fruit *fruit;
-    int fruit_number = rand() % fruit_count;
-    int position = rand() % (window_size.width() - 100);
     void (Game::*fruitCatchedFunction)();
+
+    int fruit_number = rand() % fruit_count;
     switch (static_cast<FruitType>(fruit_number))
     {
     case FruitType::APPLE_1:
-        fruit = new Apple(position, 1);
+        fruit = new Apple(1);
         fruitCatchedFunction = &Game::greenFruitCathed;
         break;
     case FruitType::APPLE_2:
-        fruit = new Apple(position, 2);
+        fruit = new Apple(2);
         fruitCatchedFunction = &Game::redFruitCathed;
         break;
     case FruitType::WORM_APPLE:
-        fruit = new WormApple(position);
+        fruit = new WormApple();
         fruitCatchedFunction = &Game::wormAppleCatched;
         break;
     case FruitType::APPLE_CORE:
-        fruit = new AppleCore(position);
+        fruit = new AppleCore();
         fruitCatchedFunction = &Game::appleCoreCatched;
         break;
     case FruitType::PEAR_1:
-        fruit = new Pear(position, 1);
+        fruit = new Pear(1);
         fruitCatchedFunction = &Game::greenFruitCathed;
         break;
     case FruitType::PEAR_2:
-        fruit = new Pear(position, 2);
+        fruit = new Pear(2);
         fruitCatchedFunction = &Game::redFruitCathed;
         break;
     }
-    connect(fruit, &Apple::fruitCatchedSignal, this, fruitCatchedFunction);
+
+    int position = rand() % (window_size.width() - (int)fruit->boundingRect().width());
+    fruit->setPos(position, 0);
+
     scene->addItem(fruit);
+    connect(fruit, &Apple::fruitCatchedSignal, this, fruitCatchedFunction);
 }
 
 void Game::redFruitCathed()

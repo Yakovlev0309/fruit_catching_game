@@ -6,7 +6,7 @@
 class AppleCore : public Fruit
 {
 public:
-    AppleCore(int position, QGraphicsItem *parent = nullptr);
+    AppleCore(QGraphicsItem *parent = nullptr);
 };
 
 #endif // APPLECORE_H

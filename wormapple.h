@@ -6,7 +6,7 @@
 class WormApple : public Fruit
 {
 public:
-    WormApple(int position, QGraphicsItem *parent = nullptr);
+    WormApple(QGraphicsItem *parent = nullptr);
 };
 
 #endif // WORMAPPLE_H

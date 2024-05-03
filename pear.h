@@ -6,7 +6,7 @@
 class Pear : public Fruit
 {
 public:
-    Pear(int position, int pear_number, QGraphicsItem *parent = nullptr);
+    Pear(int pear_number, QGraphicsItem *parent = nullptr);
 };
 
 #endif // PEAR_H
