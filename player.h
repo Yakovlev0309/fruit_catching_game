@@ -22,6 +22,11 @@ private:
 private:
     QSize image_size;
     PlayerDirection current_direction;
+
+    QPixmap left_pixmap;
+    QPixmap right_pixmap;
+
+    int step;
 };
 
 #endif // PLAYER_H

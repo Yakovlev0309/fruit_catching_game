@@ -6,10 +6,10 @@
         <file>images/apple4.png</file>
         <file>images/background.png</file>
         <file>images/character.png</file>
-        <file>images/character_flipped.png</file>
         <file>images/end.png</file>
         <file>images/heart.png</file>
         <file>images/pear1.png</file>
         <file>images/pear2.png</file>
+        <file>images/character_flipped.png</file>
     </qresource>
 </RCC>

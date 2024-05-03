@@ -21,6 +21,9 @@ signals:
 
 private:
     QTimer *move_timer;
+
+    int step;
+    int move_period;
 };
 
 #endif // FRUIT_H

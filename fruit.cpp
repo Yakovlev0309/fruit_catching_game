@@ -4,9 +4,12 @@
 
 Fruit::Fruit(QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
+    step = 5;
+    move_period = 50;
+
     move_timer = new QTimer(this);
     connect(move_timer, &QTimer::timeout, this, &Fruit::move);
-    move_timer->start(50);
+    move_timer->start(move_period);
 }
 
 void Fruit::start()
@@ -37,7 +40,7 @@ void Fruit::move()
         }
     }
 
-    setPos(x(), y() + 5);
+    setPos(x(), y() + step);
     if (pos().y() > scene()->height())
     {
         scene()->removeItem(this);
