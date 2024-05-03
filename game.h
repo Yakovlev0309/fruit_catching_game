@@ -10,7 +10,6 @@
 #include "pause.h"
 #include "pausemenu.h"
 #include "settingsmenu.h"
-#include "return.h"
 #include "results.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -84,8 +83,6 @@ private:
     QGraphicsProxyWidget *pause_menu;
     SettingsMenu *settings_menu_widget;
     QGraphicsProxyWidget *settings_menu;
-    Return *return_widget;
-    QGraphicsProxyWidget *return_button;
     Results *results_widget;
     QGraphicsProxyWidget *results;
 

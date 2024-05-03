@@ -2,17 +2,24 @@
 #include "ui_results.h"
 #include <QSizePolicy>
 
-Results::Results(QWidget *parent)
+Results::Results(const QSize &window_size, QWidget *parent)
     : Menu(parent)
     , ui(new Ui::Results)
 {
     ui->setupUi(this);
 
-    setFixedSize(600, 350);
+    setFixedSize(window_size);
 
     ui->results_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->results_table->setSortingEnabled(true);
     ui->results_table->horizontalHeader()->setFixedHeight(70);
+    ui->results_table->setFixedSize(width() - 200, height() - 100);
+
+    // Кнопка возврата
+    return_widget = new Return(this);
+    return_widget->move(10, 10);
+    return_widget->setFixedSize(100, 100);
+    connect(return_widget, &Return::returnSignal, this, &Results::returnClicked);
 }
 
 Results::~Results()
@@ -33,4 +40,9 @@ void Results::fillTable(const QStringList &results)
     }
     ui->results_table->resizeColumnsToContents();
     ui->results_table->resizeRowsToContents();
+}
+
+void Results::returnClicked()
+{
+    emit returnSignal();
 }

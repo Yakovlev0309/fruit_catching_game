@@ -3,7 +3,7 @@
 #include <QDir>
 #include <QFileDialog>
 
-SettingsMenu::SettingsMenu(QWidget *parent)
+SettingsMenu::SettingsMenu(const QSize &window_size, QWidget *parent)
     : Menu(parent)
     , ui(new Ui::SettingsMenu)
 {
@@ -11,6 +11,15 @@ SettingsMenu::SettingsMenu(QWidget *parent)
 
     fruit_generation_period = 1000;
     heart_count = 5;
+
+    setFixedSize(window_size);
+    ui->main_widget->setFixedSize(width() - 200, height() - 50);
+
+    // Кнопка возврата
+    return_widget = new Return(this);
+    return_widget->move(10, 10);
+    return_widget->setFixedSize(100, 100);
+    connect(return_widget, &Return::returnSignal, this, &SettingsMenu::returnClicked);
 }
 
 SettingsMenu::~SettingsMenu()
@@ -48,6 +57,11 @@ void SettingsMenu::setHeartCount(int heart_count)
 {
     ui->heart_count_label->setText(QString::number(heart_count));
     this->heart_count = heart_count;
+}
+
+void SettingsMenu::returnClicked()
+{
+    emit returnSignal();
 }
 
 void SettingsMenu::on_fruit_generation_period_up_button_clicked()

@@ -9,13 +9,11 @@
 #include <QTime>
 #include <QIcon>
 
-// TODO перенести кнопки Return в те классы, где они нужны
-
 Game::Game()
 {
     max_results_count = 10;
     results_path = "results.txt";
-    start_health = 1;
+    start_health = 5;
     start_score = 0;
     fruit_generation_period = 1000;
 
@@ -44,27 +42,22 @@ Game::Game()
     connect(menu_widget, &MainMenu::resultsSignal, this, &Game::resultsClicked);
     connect(menu_widget, &MainMenu::settingsSignal, this, &Game::settingsClicked);
 
-    // Кнопка возврата
-    return_widget = new Return();
-    return_button = scene->addWidget(return_widget);
-    return_button->setPos(10, 10);
-    return_button->setZValue(1);
-    return_button->setVisible(false);
-    connect(return_widget, &Return::returnSignal, this, &Game::returnClicked);
-
     // Список результатов
-    results_widget = new Results();
+    results_widget = new Results(window_size);
     results = scene->addWidget(results_widget);
-    results->setPos(view->width() / 2 - results->boundingRect().width() / 2, view->height() / 2 - results->boundingRect().height() / 2);
+    // results->setPos(view->width() / 2 - results->boundingRect().width() / 2, view->height() / 2 - results->boundingRect().height() / 2);
+    results->setPos(0, 0);
     results->setZValue(1);
     results->setVisible(false);
+    connect(results_widget, &Results::returnSignal, this, &Game::returnClicked);
 
     // Меню настроек
-    settings_menu_widget = new SettingsMenu();
+    settings_menu_widget = new SettingsMenu(window_size);
     settings_menu = scene->addWidget(settings_menu_widget);
     settings_menu->setPos(view->width() / 2 - settings_menu->boundingRect().width() / 2, view->height() / 2 - settings_menu->boundingRect().height() / 2);
     settings_menu->setZValue(1);
     settings_menu->setVisible(false);
+    connect(settings_menu_widget, &SettingsMenu::returnSignal, this, &Game::returnClicked);
     connect(settings_menu_widget, &SettingsMenu::resultsPathChangedSignal, this, &Game::resultsPathChanged);
     settings_menu_widget->setResultsPathSetting(results_path);
     connect(settings_menu_widget, &SettingsMenu::fruitGenerationPeriodChangedSignal, this, &Game::fruitGenerationPeriodChanged);
@@ -75,8 +68,8 @@ Game::Game()
     // Кнопка паузы
     pause_widget = new Pause();
     pause_button = scene->addWidget(pause_widget);
-    pause_button->setPos(10, 10);
     pause_button->setZValue(1);
+    pause_button->setGeometry(QRect(10, 10, 100, 100));
     pause_button->setVisible(false);
     connect(pause_widget, &Pause::pauseSignal, this, &Game::pauseClicked);
 
@@ -146,8 +139,6 @@ void Game::startClicked()
 
 void Game::returnClicked()
 {
-    return_button->setVisible(false);
-
     if (settings_menu->isVisible())
     {
         settings_menu->setVisible(false);
@@ -166,7 +157,6 @@ void Game::resultsClicked()
 
     results_widget->fillTable(readResults());
 
-    return_button->setVisible(true);
     results->setVisible(true);
 }
 
@@ -174,7 +164,6 @@ void Game::settingsClicked()
 {
     menu->setVisible(false);
 
-    return_button->setVisible(true);
     settings_menu->setVisible(true);
 }
 
