@@ -36,7 +36,7 @@ void Health::set(int health)
         {
             int divider = 40;
             QPixmap pixmap = QPixmap(":/images/heart.png");
-            pixmap = pixmap.scaled(pixmap.size() / divider);
+            pixmap = pixmap.scaled(pixmap.size() / divider, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             hearts[i] = new QGraphicsPixmapItem(pixmap, this);
             hearts[i]->setPos(i * 55, 0);
         }

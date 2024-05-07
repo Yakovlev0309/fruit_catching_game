@@ -31,7 +31,7 @@ Game::Game()
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setFixedSize(window_size);
-    view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size)));
+    view->setBackgroundBrush(QBrush(QImage(":/images/background.png").scaled(window_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation)));
     view->setWindowIcon(QIcon(":/images/apple2.png"));
     view->setWindowTitle("Ловля фруктов");
 

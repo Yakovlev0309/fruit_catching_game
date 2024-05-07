@@ -8,11 +8,11 @@ Player::Player(QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 
     int divider = 30;
     right_pixmap = QPixmap(":/images/character.png");
-    right_pixmap = right_pixmap.scaled(right_pixmap.size() / divider);
+    right_pixmap = right_pixmap.scaled(right_pixmap.size() / divider, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     setPixmap(right_pixmap);
 
     left_pixmap = QPixmap(":/images/character_flipped.png");
-    left_pixmap = left_pixmap.scaled(right_pixmap.size());
+    left_pixmap = left_pixmap.scaled(right_pixmap.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     image_size = right_pixmap.size();
     current_direction = PlayerDirection::RIGHT;

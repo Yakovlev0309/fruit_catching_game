@@ -4,7 +4,7 @@
 GameOver::GameOver(const QSize &size, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
 {
     QPixmap pixmap = QPixmap(":/images/end.png");
-    pixmap = pixmap.scaled(size);
+    pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     setPixmap(pixmap);
 
     text = new QGraphicsTextItem(this);
