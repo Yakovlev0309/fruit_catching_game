@@ -8,6 +8,7 @@
 #include <QDate>
 #include <QTime>
 #include <QIcon>
+#include <QFile>
 
 Game::Game()
 {
