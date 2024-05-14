@@ -210,11 +210,11 @@ void Game::startFruitsGeneration(int ms)
     fruit_timer->start(ms);
 }
 
-void Game::waitAnyKeyPress()
+void Game::waitEscKeyPress()
 {
     view->installEventFilter(this);
     QEventLoop loop;
-    connect(this, &Game::keyPressedSignal, [&]() {
+    connect(this, &Game::escPressedSignal, [&]() {
         loop.quit();
     });
     loop.exec();
@@ -346,7 +346,7 @@ void Game::gameOver()
 
     writeResult();
 
-    waitAnyKeyPress();
+    waitEscKeyPress();
 
     game_over->setVisible(false);
     footer->setVisible(false);
@@ -366,7 +366,10 @@ bool Game::eventFilter(QObject *object, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress)
     {
-        emit keyPressedSignal();
+        if (static_cast<QKeyEvent*>(event)->key() == Qt::Key_Escape)
+        {
+            emit escPressedSignal();
+        }
     }
     return QObject::eventFilter(object, event);
 }

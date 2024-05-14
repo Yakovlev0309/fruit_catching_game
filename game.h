@@ -37,7 +37,7 @@ public:
 
 private:
     void startFruitsGeneration(int ms);
-    void waitAnyKeyPress();
+    void waitEscKeyPress();
     void removeFruits();
     void freezeFruits();
     void unfreezeFruits();
@@ -72,7 +72,7 @@ private slots:
     bool eventFilter(QObject *object, QEvent *event);
 
 signals:
-    void keyPressedSignal();
+    void escPressedSignal();
 
 private:
     QGraphicsScene *scene;
