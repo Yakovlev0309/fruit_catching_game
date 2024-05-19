@@ -43,6 +43,7 @@ Game::Game()
     connect(menu_widget, &MainMenu::startSignal, this, &Game::startClicked);
     connect(menu_widget, &MainMenu::resultsSignal, this, &Game::resultsClicked);
     connect(menu_widget, &MainMenu::settingsSignal, this, &Game::settingsClicked);
+    connect(menu_widget, &MainMenu::informationSignal, this, &Game::informationClicked);
 
     // Список результатов
     results_widget = new Results(window_size);
@@ -66,6 +67,14 @@ Game::Game()
     settings_menu_widget->setFruitGenerationPeriodSettings(500, 3000, fruit_generation_period);
     connect(settings_menu_widget, &SettingsMenu::heartCountChangedSignal, this, &Game::heartCountChanged);
     settings_menu_widget->setHealthSettings(1, 5, start_health);
+
+    // Информация об игре
+    information_widget = new Information(window_size);
+    information = scene->addWidget(information_widget);
+    information->setPos(view->width() / 2 - information->boundingRect().width() / 2, view->height() / 2 - information->boundingRect().height() / 2);
+    information->setZValue(1);
+    information->setVisible(false);
+    connect(information_widget, &Information::returnSignal, this, &Game::returnClicked);
 
     // Кнопка паузы
     pause_widget = new Pause();
@@ -145,9 +154,13 @@ void Game::returnClicked()
     {
         settings_menu->setVisible(false);
     }
-    else // Открыт список результатов
+    else if (results->isVisible()) // Открыт список результатов
     {
         results->setVisible(false);
+    }
+    else // Открыта информация об игре
+    {
+        information->setVisible(false);
     }
 
     menu->setVisible(true);
@@ -167,6 +180,13 @@ void Game::settingsClicked()
     menu->setVisible(false);
 
     settings_menu->setVisible(true);
+}
+
+void Game::informationClicked()
+{
+    menu->setVisible(false);
+
+    information->setVisible(true);
 }
 
 void Game::pauseClicked()

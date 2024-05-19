@@ -14,6 +14,7 @@ SOURCES += \
         game.cpp \
         gameover.cpp \
         health.cpp \
+        information.cpp \
         main.cpp \
         mainmenu.cpp \
         menu.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     game.h \
     gameover.h \
     health.h \
+    information.h \
     mainmenu.h \
     menu.h \
     pause.h \
@@ -56,6 +58,7 @@ RESOURCES += \
     res.qrc
 
 FORMS += \
+    information.ui \
     mainmenu.ui \
     pause.ui \
     pausemenu.ui \

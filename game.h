@@ -9,8 +9,9 @@
 #include "mainmenu.h"
 #include "pause.h"
 #include "pausemenu.h"
-#include "settingsmenu.h"
 #include "results.h"
+#include "settingsmenu.h"
+#include "information.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QTimer>
@@ -51,6 +52,7 @@ private slots:
     void returnClicked();
     void resultsClicked();
     void settingsClicked();
+    void informationClicked();
     void pauseClicked();
     void continueClicked();
     void mainMenuClicked();
@@ -84,10 +86,12 @@ private:
     QGraphicsProxyWidget *pause_button;
     PauseMenu *pause_menu_widget;
     QGraphicsProxyWidget *pause_menu;
-    SettingsMenu *settings_menu_widget;
-    QGraphicsProxyWidget *settings_menu;
     Results *results_widget;
     QGraphicsProxyWidget *results;
+    SettingsMenu *settings_menu_widget;
+    QGraphicsProxyWidget *settings_menu;
+    Information *information_widget;
+    QGraphicsProxyWidget *information;
 
     Footer *footer;
     Score *score;

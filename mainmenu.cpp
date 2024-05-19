@@ -29,9 +29,15 @@ void MainMenu::on_settings_button_clicked()
     emit settingsSignal();
 }
 
+void MainMenu::on_information_button_clicked()
+{
+    emit informationSignal();
+}
+
 void MainMenu::on_exit_button_clicked()
 {
     QMessageBox msg;
+    msg.setWindowIcon(QIcon(":/images/apple2.png"));
     msg.setWindowTitle("Выход из игры");
     msg.setText("Вы уверены, что хотите выйти из игры?");
     QPushButton *okButton = msg.addButton("Да", QMessageBox::AcceptRole);

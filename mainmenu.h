@@ -22,10 +22,13 @@ private slots:
 
     void on_settings_button_clicked();
 
+    void on_information_button_clicked();
+
 signals:
     void startSignal();
     void resultsSignal();
     void settingsSignal();
+    void informationSignal();
 
 private:
     Ui::MainMenu *ui;
